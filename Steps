@@ -1,1 +1,9 @@
-1.) Factor out Square as component
+1.) Factor out Square as component - no work except for import / export
+2.) Factor out Board - convert to function
+  a.) eliminate this and render()
+  b.) renderSquare becomes helper function rather than method
+  c.) props must appear as function param
+  
+3.) Factor out Game - convert to function
+  a.) translate state 
+  
