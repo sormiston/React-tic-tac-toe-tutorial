@@ -9,47 +9,54 @@ function Game() {
   const handleClick = (i) => {
     const historySegment = history.slice(0, stepNumber + 1)
     const current = historySegment[historySegment.length - 1]
-    const squares = current.squares
+    const squares = current.squares.slice()
+    console.log(historySegment)
+    console.log(current)
+    console.log(squares)
+    
     if (calculateWinner(squares) || squares[i]) {
       return
     }
     squares[i] = xIsNext ? 'X' : 'O'
-    setHistory(history.concat([{ squares }]))
+    setHistory(historySegment.concat([{ squares }]))
     setStepNumber(historySegment.length)
     setXIsNext(!xIsNext)
   }
 
-  function jumpTo(step) {
-      setStepNumber(step)
-      setXIsNext(step % 2 === 0)
+  function jumpTo(move) {
+      setStepNumber(move)
+    setXIsNext(move % 2 === 0)
+    console.log(history[stepNumber].squares)
     }
   
+  // The following calculations can be removed from the context of render(), enhancing
+  // separation of concerns between data handling and DOM manipulation
+  
     const winner = calculateWinner(history[stepNumber].squares)
-
+    let status
+    if (winner) {
+      status = 'Winner: ' + winner
+    } else {
+      status = 'Next Player: ' + (xIsNext ? 'X' : 'O')
+    }
+  
     const moves = history.map((step, move) => {
       const desc = move ?
         'Go to move #' + move :
         'Go to game start'
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button onClick={() => jumpTo(move)}>{desc}</button>
         </li>
       )
     })
-
-    let status
-    if (winner) {
-      status = 'Winner: ' + winner
-    } else {
-      status = 'Next Player: ' + (this.state.xIsNext ? 'X' : 'O')
-    }
 
     return (
       <div className="game">
         <div className="game-board">
           <Board
             squares={history[stepNumber].squares}
-            onClick={(i) => this.handleClick(i)} />
+            onClick={i => handleClick(i)} />
         </div>
         <div className="game-info">
           <div>{status}</div>

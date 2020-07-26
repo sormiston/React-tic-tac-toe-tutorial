@@ -6,4 +6,8 @@
   
 3.) Factor out Game - convert to function
   a.) translate state 
+  b.) boil down definitions, fewer intermediary steps since addresses are much closer
+  c.) the "calculation" parts of render can join the middle part of the function preceding the Element return
+  d.) 
+  
   
